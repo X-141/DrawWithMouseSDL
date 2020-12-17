@@ -39,7 +39,7 @@ TEST(DownTopTest, case_1) {
 	std::vector<SDL_Point> vec_points;
 	std::vector<SDL_Point> comparison_points =
 	{
-		{5,6}, {5,5}, {4,4}, {4,3}, {3,2}, {3, 1}
+		{3, 1}, {3,2}, {4,3}, {4,4}, {5,5}, {5,6}
 	};
 
 	int x_1, y_1, x_2, y_2;
@@ -67,7 +67,7 @@ TEST(RightLeftTest, case_1) {
 	std::vector<SDL_Point> vec_points;
 	std::vector<SDL_Point> comparison_points =
 	{
-		{12,4}, {11,4}, {10, 3}, {9,3}, {8,3}, {7,2}, {6,2}
+		{6,2}, {7,2}, {8,3}, {9,3}, {10, 3}, {11,4}, {12,4}
 	};
 
 	int x_1, y_1, x_2, y_2;

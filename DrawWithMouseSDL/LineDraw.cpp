@@ -35,53 +35,25 @@ void calculate_points(const int c_x, const int c_y, SDL_Point points[13]) {
 
 }
 
-void draw_line_TopDown(const int c_y1, const int c_y2, const float m, const float b, std::vector<SDL_Point>& vec_points) {
+void draw_line_Rise(const int c_y1, const int c_y2, const float m, const float b, std::vector<SDL_Point>& vec_points) {
 	register float calcd_x;
 	// Here we calculate the exact x coordinate position for
 	// each y position from c_y1 to c_y2.
-	for (int pos = c_y1; pos <= c_y2; ++pos) {
+	for (int pos = std::min(c_y1, c_y2); pos <= std::max(c_y1, c_y2); ++pos) {
 		calcd_x = (pos - b) / m; // x = ( y - b) / m;
 		// Determine which pixel in the x position to color.
-		if (calcd_x - static_cast<int>(calcd_x) < static_cast<float>(.5))
+		if (calcd_x - static_cast<int>(calcd_x) <= static_cast<float>(.5))
 			vec_points.push_back({ static_cast<int>(std::floor(calcd_x)), pos });
 		else
 			vec_points.push_back({ static_cast<int>(std::ceil(calcd_x)), pos });
 	}
 }
 
-void draw_line_DownTop(const int c_y1, const int c_y2, const float m, const float b, std::vector<SDL_Point>& vec_points) {
-	register float calcd_x;
-	// Here we calculate the exact x coordinate position for
-	// each y position from c_y1 to c_y2.
-	for (int pos = c_y1; pos >= c_y2; --pos) {
-		calcd_x = (pos - b) / m; // x = ( y - b) / m;
-		// Determine which pixel in the x position to color.
-		if (calcd_x - static_cast<int>(calcd_x) < static_cast<float>(.5))
-			vec_points.push_back({ static_cast<int>(std::floor(calcd_x)), pos });
-		else
-			vec_points.push_back({ static_cast<int>(std::ceil(calcd_x)), pos });
-	}
-}
-
-void draw_lineLeftRight(const int c_x1, const int c_x2, const float m, const float b, std::vector<SDL_Point>& vec_points) {
+void draw_line_Run(const int c_x1, const int c_x2, const float m, const float b, std::vector<SDL_Point>& vec_points) {
 	register float calcd_y;
 	// Here we calculate the exact y coordinate position for
 	// each x from c_x1 to c_x2. 
 	for (int pos = c_x1; pos <= c_x2; ++pos) {
-		calcd_y = (m * pos) + b; // y = mx + b
-		// Determine which pixel in the y position to color.
-		if (calcd_y - static_cast<int>(calcd_y) < static_cast<float>(.5))
-			vec_points.push_back({ pos, static_cast<int>(std::floor(calcd_y)) });
-		else
-			vec_points.push_back({ pos, static_cast<int>(std::ceil(calcd_y)) });
-	}
-}
-
-void draw_lineRightLeft(const int c_x1, const int c_x2, const float m, const float b, std::vector<SDL_Point>& vec_points) {
-	register float calcd_y;
-	// Here we calculate the exact y coordinate position for
-	// each x from c_x1 to c_x2. 
-	for (int pos = c_x1; pos >= c_x2; --pos) {
 		calcd_y = (m * pos) + b; // y = mx + b
 		// Determine which pixel in the y position to color.
 		if (calcd_y - static_cast<int>(calcd_y) < static_cast<float>(.5))
@@ -124,21 +96,26 @@ void interpolate_points(const int c_x1, const int c_y1, const int c_x2, const in
 
 	if (abs_y > abs_x) { // If rise is greater than run
 		// We need to determine which direction the line is heading.
-		if (delta_y > 0) { // Handle case where ending y coordinate is greater than starting y.
-			draw_line_TopDown(c_y1, c_y2, m, b, vec_points);
-		}
-		else { // Otherwise, starting y is greater than ending y coordinate.
-			draw_line_DownTop(c_y1, c_y2, m, b, vec_points);
-		}
+		//for (int pos = std::min(c_y1, c_y2); pos <= std::max(c_y1, c_y2); ++pos) {
+		//	float calcd_x = (pos - b) / m; // x = ( y - b) / m;
+		//	// Determine which pixel in the x position to color.
+		//	if (calcd_x - static_cast<int>(calcd_x) <= static_cast<float>(.5))
+		//		vec_points.push_back({ static_cast<int>(std::floor(calcd_x)), pos });
+		//	else
+		//		vec_points.push_back({ static_cast<int>(std::ceil(calcd_x)), pos });
+		//}
+		draw_line_Rise(c_y1, c_y2, m, b, vec_points);
 	}
 	else if (abs_y < abs_x) { // run is greater
-		// We need to determine which direction the line is heading.
-		if (delta_x > 0) { // Handle case where ending x coordinate is greater than starting x
-			draw_lineLeftRight(c_x1, c_x2, m, b, vec_points);
-		}
-		else { // Otherwise, starting x is greater than ending y coordinate.
-			draw_lineRightLeft(c_x1, c_x2, m, b, vec_points);
-		}
+		//for (int pos = std::min(c_x1, c_x2); pos <= std::max(c_x1, c_x2); ++pos) {
+		//	float calcd_y = (m * pos) + b; // y = mx + b
+		//	// Determine which pixel in the y position to color.
+		//	if (calcd_y - static_cast<int>(calcd_y) < static_cast<float>(.5))
+		//		vec_points.push_back({ pos, static_cast<int>(std::floor(calcd_y)) });
+		//	else
+		//		vec_points.push_back({ pos, static_cast<int>(std::ceil(calcd_y)) });
+		//}
+		draw_line_Run(c_x1, c_x2, m, b, vec_points);
 	}
 	else { // equal. This means its a linear function.
 		// We do not need to determine the line heading.

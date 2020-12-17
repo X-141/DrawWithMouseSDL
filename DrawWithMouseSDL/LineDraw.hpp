@@ -18,34 +18,14 @@ void calculate_points(const int c_x, const int c_y, SDL_Point points[13]);
 * y value than starting.
 * Example coordinate: (3,1) and (5,6).
 */
-void draw_line_TopDown(const int c_y1, const int c_y2, const float m, const float b, std::vector<SDL_Point>& vec_points);
+void draw_line_Rise(const int c_y1, const int c_y2, const float m, const float b, std::vector<SDL_Point>& vec_points);
 
 /**
 * This function handles calculating best fit lines if ending position has a lesser
 * y value than starting.
 * Example coordinate: (5,6) and (3,1).
 */
-void draw_line_DownTop(const int c_y1, const int c_y2, const float m, const float b, std::vector<SDL_Point>& vec_points);
-
-/**
-* This function handles calculating best fit lines if starting position has a greater x
-* value than ending.
-* Example coordinates: (6,2) and (12, 4).
-*/
-void draw_lineLeftRight(const int c_x1, const int c_x2, const float m, const float b, std::vector<SDL_Point>& vec_points);
-
-/**
-* This function handles calculating best fit lines if starting position has a lesser x
-* value than ending.
-* Example coordinates: (12, 4) and (6,2).
-*/
-void draw_lineRightLeft(const int c_x1, const int c_x2, const float m, const float b, std::vector<SDL_Point>& vec_points);
-
-/**
-* This function draws a linear line from starting position to ending position.
-* Example coordinates: (6, 11) and (9, 8). Or (9, 8) and (6, 11).
-*/
-void draw_lineLinear(const int c_x1, const int c_x2, const float m, const float b, std::vector<SDL_Point>& vec_points);
+void draw_line_Run(const int c_y1, const int c_y2, const float m, const float b, std::vector<SDL_Point>& vec_points);
 
 /**
 * Given a starting and ending position in a x,y window. Calculate

@@ -53,7 +53,7 @@ void draw_line_Run(const int c_x1, const int c_x2, const float m, const float b,
 	register float calcd_y;
 	// Here we calculate the exact y coordinate position for
 	// each x from c_x1 to c_x2. 
-	for (int pos = c_x1; pos <= c_x2; ++pos) {
+	for (int pos = std::min(c_x1, c_x2); pos <= std::max(c_x1, c_x2); ++pos) {
 		calcd_y = (m * pos) + b; // y = mx + b
 		// Determine which pixel in the y position to color.
 		if (calcd_y - static_cast<int>(calcd_y) < static_cast<float>(.5))
@@ -95,26 +95,9 @@ void interpolate_points(const int c_x1, const int c_y1, const int c_x2, const in
 	const float b = c_y1 - (m * c_x1); // b = y - mx
 
 	if (abs_y > abs_x) { // If rise is greater than run
-		// We need to determine which direction the line is heading.
-		//for (int pos = std::min(c_y1, c_y2); pos <= std::max(c_y1, c_y2); ++pos) {
-		//	float calcd_x = (pos - b) / m; // x = ( y - b) / m;
-		//	// Determine which pixel in the x position to color.
-		//	if (calcd_x - static_cast<int>(calcd_x) <= static_cast<float>(.5))
-		//		vec_points.push_back({ static_cast<int>(std::floor(calcd_x)), pos });
-		//	else
-		//		vec_points.push_back({ static_cast<int>(std::ceil(calcd_x)), pos });
-		//}
 		draw_line_Rise(c_y1, c_y2, m, b, vec_points);
 	}
 	else if (abs_y < abs_x) { // run is greater
-		//for (int pos = std::min(c_x1, c_x2); pos <= std::max(c_x1, c_x2); ++pos) {
-		//	float calcd_y = (m * pos) + b; // y = mx + b
-		//	// Determine which pixel in the y position to color.
-		//	if (calcd_y - static_cast<int>(calcd_y) < static_cast<float>(.5))
-		//		vec_points.push_back({ pos, static_cast<int>(std::floor(calcd_y)) });
-		//	else
-		//		vec_points.push_back({ pos, static_cast<int>(std::ceil(calcd_y)) });
-		//}
 		draw_line_Run(c_x1, c_x2, m, b, vec_points);
 	}
 	else { // equal. This means its a linear function.
